@@ -3,11 +3,15 @@ import mongoose from "mongoose";
 import userRouter from "./routes/userRouter.js";
 import jwt from "jsonwebtoken";
 import productRouter from "./routes/productroutour.js";
+import cors from "cors";
+import dotenv from "dotenv"
 
-
+dotenv.config();
 const app = express();
+app.use(cors())
 // middle man to parse json body
 app.use(express.json())
+
 app.use(
     (req,res,next)=>{
         let token = req.header("Authorization")
@@ -32,7 +36,7 @@ app.use(
         next();
     } 
 )
-const connectionstring = "mongodb+srv://Admindanuja:dnmongo123@cluster0.a0xqaus.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const connectionstring = process.env.mongo_URI;
 mongoose.connect(connectionstring).then(
     ()=>{
         console.log("database connected")
