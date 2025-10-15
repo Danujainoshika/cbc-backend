@@ -18,7 +18,7 @@ app.use(
         if(token != null){
             token = token.replace("Bearer ","")
             
-            jwt.verify(token,"jwt-secret",
+            jwt.verify(token,process.env.JWT_SECRET,
                 (err,decoded)=>{
                     if(decoded == null){
                         res.json(
@@ -49,8 +49,8 @@ mongoose.connect(connectionstring).then(
 );
 
 
-app.use("/users",userRouter);
-app.use("/products",productRouter);
+app.use("/api/users",userRouter);
+app.use("/api/products",productRouter);
 
 
 
