@@ -125,7 +125,7 @@ export async function createOrder(req, res) {
                
             });
       }
-}
+} 
 
 export async function getOrders(req, res) {
     if(isAdmin(req)){
@@ -140,4 +140,33 @@ export async function getOrders(req, res) {
                 message: "you are not authorized to view orders" 
             })
     }
+}
+
+export async function orderStatusUpdate(req, res) {
+    
+    try {
+        if(!isAdmin(req)){
+        res.status(401).json(
+            { 
+                message: "you are not authorized to update order status" 
+            })
+        return
+    }
+        const orderID =  req.params.orderID
+        const newStatus = req.body.status
+    
+        await Order.updateOne( {orderID : orderID},{status : newStatus})
+        res.json(
+            { 
+                message: "Order status updated successfully" 
+            })
+        
+    } catch (error) {
+        res.status(500).json(
+            { 
+                message: "Internal server error" 
+            })
+            return
+    }
+    
 }
