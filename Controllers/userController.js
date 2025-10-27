@@ -72,7 +72,8 @@ export function loginUser(req,res){
                             firstname: user.firstname,
                             lastname : user.lastname,
                             role : user.role,
-                            isEmailVerified : user.isEmailVerified
+                            isEmailVerified : user.isEmailVerified,
+                            image : user.image
 
                         }
                     }
@@ -111,4 +112,18 @@ export function isCustomer(req){
         return false
     }
     return true
+}
+
+export function getUser(req,res){
+    if(req.user == null){
+        res.status(401).json(
+            {
+                message : "unauthorized user"
+            }
+        )
+    }else{
+        res.json(
+            req.user
+        )
+    }
 }
